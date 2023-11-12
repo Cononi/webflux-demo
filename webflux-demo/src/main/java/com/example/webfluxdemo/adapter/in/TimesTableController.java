@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TimesTableController {
 
-    private TimesTableUseCase timesTableUseCase;
+    private final TimesTableUseCase timesTableUseCase;
 
     @GetMapping("square/{input}")
     public TimesTable findSquare(@PathVariable int input){

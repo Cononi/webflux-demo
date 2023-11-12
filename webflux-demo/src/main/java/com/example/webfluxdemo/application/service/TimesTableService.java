@@ -23,7 +23,7 @@ public class TimesTableService implements TimesTableUseCase {
     @Override
     public List<TimesTable> multiplicationTable(int input) {
         return IntStream.rangeClosed(1, 10)
-                .peek(SleepUtil::sleepSeconds)
+                .peek(i -> SleepUtil.sleepSeconds(1))
                 .peek(i -> System.out.println("math service processing : " + i))
                 .mapToObj(i -> TimesTable.builder()
                         .date(LocalDateTime.now())
