@@ -1,6 +1,7 @@
 package com.example.webfluxdemo.application.service;
 
 import com.example.webfluxdemo.application.port.in.TimesTableUseCase;
+import com.example.webfluxdemo.common.SleepUtil;
 import com.example.webfluxdemo.domain.TimesTable;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class TimesTableService implements TimesTableUseCase {
     @Override
     public List<TimesTable> multiplicationTable(int input) {
         return IntStream.rangeClosed(1, 10)
+                .peek(SleepUtil::sleepSeconds)
+                .peek(i -> System.out.println("math service processing : " + i))
                 .mapToObj(i -> TimesTable.builder()
                         .date(LocalDateTime.now())
                         .output(i*input)
