@@ -8,4 +8,6 @@ public interface ReactiveMathUseCase {
 
     Mono<TimesTable> findSqaure(int input);
     Flux<TimesTable> multiplicationTable(int input);
+    Flux<TimesTable> asyncMultiplicationTable(int input);
+
 }
