@@ -2,6 +2,7 @@ package com.example.webfluxdemo.application.service;
 
 import com.example.webfluxdemo.application.port.in.ReactiveMathUseCase;
 import com.example.webfluxdemo.common.SleepUtil;
+import com.example.webfluxdemo.domain.Multiply;
 import com.example.webfluxdemo.domain.TimesTable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -46,6 +47,12 @@ public class ReactiveMathService implements ReactiveMathUseCase {
         return Flux.range(1, 10)
                 .delayElements(Duration.ofSeconds(1))
                 .doOnNext(i -> System.out.println("reactive-math-service processing : " + i))
+                .map(TimesTable::timesTableMap);
+    }
+
+    @Override
+    public Mono<TimesTable> multiplyMono(Mono<Multiply> dtoMono) {
+        return dtoMono.map(dto -> dto.first() * dto.second())
                 .map(TimesTable::timesTableMap);
     }
 }
