@@ -1,8 +1,12 @@
 package com.example.webfluxdemo.common;
 
-public record ErrorResponse(
-        int errorCode,
-        int input,
-        String message
+import lombok.Builder;
+
+@Builder
+public record ErrorResponse <T>(
+        int code,
+        String message,
+        T data
 ) {
+
 }
