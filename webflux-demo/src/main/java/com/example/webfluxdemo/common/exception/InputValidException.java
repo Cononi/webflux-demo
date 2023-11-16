@@ -8,10 +8,10 @@ import lombok.Getter;
 public class InputValidException extends RuntimeException {
 
     private final ResponseCode responseCode;
-    private final int input;
-    public InputValidException(ResponseCode responseCode, int input) {
+    private final int data;
+    public InputValidException(ResponseCode responseCode, int data) {
         super(responseCode.getMessage());
         this.responseCode = responseCode;
-        this.input = input;
+        this.data = data;
     }
 }

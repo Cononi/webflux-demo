@@ -24,4 +24,18 @@ public class ReactiveMathValidationController {
             throw new InputValidException(ResponseCode.FAIL_100, input);
         return this.reactiveMathUseCase.findSqaure(input);
     }
+
+    @GetMapping("square/{input}/throw")
+    public Mono<TimesTable> monoError(@PathVariable int input){
+        return Mono.just(input)
+                .handle((integer, sink) -> {
+                    if(integer >= 10 && integer <= 20)
+                        sink.next(integer);
+                    else
+                        sink.error(new InputValidException(ResponseCode.FAIL_100, input));
+                })
+                .cast(Integer.class) // 정수로 변환
+                .flatMap(this.reactiveMathUseCase::findSqaure); // Map과 Flatmap 차이알아야함
+    }
 }
+
