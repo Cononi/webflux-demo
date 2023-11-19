@@ -5,6 +5,7 @@ import com.example.webfluxdemo.common.ResponseCode;
 import com.example.webfluxdemo.common.exception.InputValidException;
 import com.example.webfluxdemo.domain.TimesTable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public class ReactiveMathValidationController {
         return this.reactiveMathUseCase.findSqaure(input);
     }
 
-    @GetMapping("square/{input}/throw")
+    @GetMapping("square/{input}/mono-error")
     public Mono<TimesTable> monoError(@PathVariable int input){
         return Mono.just(input)
                 .handle((integer, sink) -> {
@@ -36,6 +37,15 @@ public class ReactiveMathValidationController {
                 })
                 .cast(Integer.class) // 정수로 변환
                 .flatMap(this.reactiveMathUseCase::findSqaure); // Map과 Flatmap 차이알아야함
+    }
+
+    @GetMapping("square/{input}/assignment")
+    public Mono<ResponseEntity<TimesTable>> assignment(@PathVariable int input){
+        return Mono.just(input)
+                .filter(i -> i >=10 && i<= 20) // 해당 조건이 만족하면 (map) 아니라면 (defaultIfEmpty)
+                .flatMap(this.reactiveMathUseCase::findSqaure)// Map과 Flatmap
+                .map(ResponseEntity::ok) // 여기로 온다
+                .defaultIfEmpty(ResponseEntity.badRequest().build()); // 아니라면 여기로
     }
 }
 

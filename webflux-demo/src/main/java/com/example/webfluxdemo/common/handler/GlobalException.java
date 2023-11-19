@@ -15,7 +15,7 @@ public class GlobalException {
         return ResponseEntity.badRequest().body(ErrorResponse.builder()
                 .code(ex.getResponseCode().getCode())
                 .message(ex.getMessage())
-                .data(ex.getInput())
+                .data(ex.getData())
                 .build());
     }
 }
